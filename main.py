@@ -30,15 +30,20 @@ def users_input():
     while True:
         place = input("Where would you like to place your ship?:").upper()
         columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-        if place[0].isalpha():
-            if place[0] not in columns:
+        col = place[0]
+        if len(place) == 2:
+            row = place[1]
+        else:
+            row = place[1] + place[2]
+        if col.isalpha():
+            if col not in columns:
                 print("Letter out of range")
             else:
-                if place[1].isnumeric():
-                    if int(place[1]) > 10:
+                if row.isnumeric():
+                    if int(row) > 10:
                         print("Number out of range")
                     else:
-                        return place
+                        return col + row
                 else:
                     print("The second part of the coordinate must be a number")
         else:
@@ -46,16 +51,25 @@ def users_input():
 
 
 def coordinates(place):
+    col = place[0]
+    if len(place) == 2:
+        row = place[1]
+    else:
+        row = place[1] + place[2]
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     for i in range(len(columns)):
-        if place[0] == columns[i]:
-            place = str(i) + place[1]
+        if col == columns[i]:
+            place = str(i) + row
             return place
 
 
 def placing_ships(place, board):
     col = int(place[0])
-    row = int(place[1]) - 1
+    if len(place) == 2:
+        row = int(place[1]) - 1
+    else:
+        row = place[1] + place[2]
+        row = int(row) - 1
     if board[row][col] == "0":
         board[row][col] = "X"
 
