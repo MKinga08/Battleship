@@ -34,10 +34,20 @@ def users_input():
             print("You have to type in a letter than a number")
 
 
+def coordinates(place):
+    columns = ["A", "B", "C", "D", "E"]
+    for i in range(len(columns)):
+        if place[0] == columns[i]:
+            place = str(i) + place[1]
+            return place
+
+
 def main():
     gboard = game_board()
     print_gameboard(gboard)
-    users_input()
+    userinput = users_input()
+    coordinates(userinput)
+
 
 if __name__ == "__main__":
     main()
