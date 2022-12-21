@@ -25,6 +25,22 @@ def print_gameboard(board):
         print(counter, row, collector)
 
 
+def ship_input():
+    print("In this game you have 13 ships which have different lengths\nYour ships are the following:")
+    ships = [0, 5, 3, 3, 2]
+    for i in range(len(ships)-1, 0, -1):
+        print(f"{ships[i]}pc of {i} unit long ship")
+    print("Enter a beginner and an end coordinate for all of your ships")
+    for j in range(len(ships)-1, 0, -1):
+        print(f"Place your {j} unit length ships:")
+        pcs = ships[j]
+        while pcs > 0:
+            first = input("First coordinate:")
+            last = input("Second coordinate:")
+            #validation
+            pcs -= 1
+
+
 def users_input(columns):
     print("You can place your ships by typing in a letter and a number like this: A1")
     while True:
@@ -63,12 +79,12 @@ def placing_ships(col, row, board):
         board[row][col] = "X"
 
 
-
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     gboard = game_board()
     while True:
         print_gameboard(gboard)
+        ship_input()
         col, row = users_input(columns)
         col, row = coordinates(col, row, columns)
         placing_ships(col, row, gboard)
