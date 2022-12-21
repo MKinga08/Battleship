@@ -24,14 +24,22 @@ def users_input():
     print("You can place your ships by typing in a letter and a number like this: A1")
     while True:
         place = input("Where would you like to place your ship?:").upper()
-        if place[0].isnumeric():
-            print("First you have to type in a letter")
-        elif place[1].isalpha():
-            print("You have to type in a number for the second coordinate")
-        elif place[0].isalpha() and place[1].isnumeric():
-            return place
+        columns = ["A", "B", "C", "D", "E"]
+        if place[0].isalpha():
+            if place[0] not in columns:
+                print("Letter out of range")
+            else:
+                if place[1].isnumeric():
+                    if int(place[1]) > 5:
+                        print("Number out of range")
+                    else:
+                        return place
+                else:
+                    print("The second part of the coordinate must be a number")
         else:
-            print("You have to type in a letter than a number")
+            print("The first part of the coordinate must be a letter")
+
+
 
 
 def coordinates(place):
@@ -40,7 +48,6 @@ def coordinates(place):
         if place[0] == columns[i]:
             place = str(i) + place[1]
             return place
-
 
 def main():
     gboard = game_board()
