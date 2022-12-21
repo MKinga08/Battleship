@@ -25,11 +25,10 @@ def print_gameboard(board):
         print(counter, row, collector)
 
 
-def users_input():
+def users_input(columns):
     print("You can place your ships by typing in a letter and a number like this: A1")
     while True:
         place = input("Where would you like to place your ship?:").upper()
-        columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         col = place[0]
         if len(place) == 2:
             row = place[1]
@@ -43,46 +42,36 @@ def users_input():
                     if int(row) > 10:
                         print("Number out of range")
                     else:
-                        return col + row
+                        return col, row
                 else:
                     print("The second part of the coordinate must be a number")
         else:
             print("The first part of the coordinate must be a letter")
 
 
-def coordinates(place):
-    col = place[0]
-    if len(place) == 2:
-        row = place[1]
-    else:
-        row = place[1] + place[2]
-    columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+def coordinates(col, row, columns):
     for i in range(len(columns)):
         if col == columns[i]:
-            place = str(i) + row
-            return place
+            col = i
+            return col, row
 
 
-def placing_ships(place, board):
-    col = int(place[0])
-    if len(place) == 2:
-        row = int(place[1]) - 1
-    else:
-        row = place[1] + place[2]
-        row = int(row) - 1
+def placing_ships(col, row, board):
+    col = int(col)
+    row = int(row) - 1
     if board[row][col] == "0":
         board[row][col] = "X"
 
 
 
-
 def main():
+    columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     gboard = game_board()
     while True:
         print_gameboard(gboard)
-        userinput = users_input()
-        coord = coordinates(userinput)
-        placing_ships(coord, gboard)
+        col, row = users_input(columns)
+        col, row = coordinates(col, row, columns)
+        placing_ships(col, row, gboard)
 
 
 if __name__ == "__main__":
