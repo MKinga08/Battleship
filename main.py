@@ -1,7 +1,6 @@
 def game_board():
     board = []
     rows, cols = 10, 10
-    print("    A", " B", " C", " D", " E", " F", " G", " H", " I", " J")
     for i in range(rows):
         col = []
         for j in range(cols):
@@ -11,6 +10,7 @@ def game_board():
 
 
 def print_gameboard(board):
+    print("    A", " B", " C", " D", " E", " F", " G", " H", " I", " J")
     counter = 0
     for i in board:
         collector = ""
@@ -22,7 +22,6 @@ def print_gameboard(board):
             else:
                 row = ""
                 collector += k + "  "
-
         print(counter, row, collector)
 
 
@@ -46,8 +45,6 @@ def users_input():
             print("The first part of the coordinate must be a letter")
 
 
-
-
 def coordinates(place):
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     for i in range(len(columns)):
@@ -55,11 +52,23 @@ def coordinates(place):
             place = str(i) + place[1]
             return place
 
+
+def placing_ships(place, board):
+    col = int(place[0])
+    row = int(place[1]) - 1
+    if board[row][col] == "0":
+        board[row][col] = "X"
+
+
+
+
 def main():
     gboard = game_board()
-    print_gameboard(gboard)
-    userinput = users_input()
-    coordinates(userinput)
+    while True:
+        print_gameboard(gboard)
+        userinput = users_input()
+        coord = coordinates(userinput)
+        placing_ships(coord, gboard)
 
 
 if __name__ == "__main__":
