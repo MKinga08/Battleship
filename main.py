@@ -37,6 +37,7 @@ def beginning(ships):
 
 
 def ship_input(ships, columns):
+    data = []
     for j in range(len(ships) - 1, 0, -1):
         print(f"Place your {j} unit length ships:")
         pcs = ships[j]
@@ -50,9 +51,36 @@ def ship_input(ships, columns):
                     if input_validation(columns, last):
                         col, row = colrow(last)
                         coord2 = coordinates(col, row, columns)
-                        #if
+                        if coord1[0] != coord2[0]:
+                            if coord1[0] > coord2[0]:
+                                if coord1[0] - coord2[0] == j-1:
+                                    for i in range(coord2[0], coord1[0] + 1):
+                                        data.append((i, coord1[1]))
+                                else:
+                                    print("Ship too long or ship too small")
+                            else:
+                                if coord2[0] - coord1[0] == j-1:
+                                    for i in range(coord1[0], coord2[0] + 1):
+                                        data.append((i, coord1[1]))
+                                else:
+                                    print("Ship too long or ship too small")
+                        else:
+                            if coord1[1] > coord2[1]:
+                                if coord1[1] - coord2[1] == j-1:
+                                    for i in range(coord2[1], coord1[1] + 1):
+                                        data.append((coord2[0], i))
+                                else:
+                                    print("Ship too long or ship too small")
+                            else:
+                                if coord2[1] - coord1[1] == j-1:
+                                    for i in range(coord1[1], coord2[1] + 1):
+                                        data.append((coord1[0], i))
+                                else:
+                                    print("Ship too long or ship too small")
+                        print(data)
                         break
             pcs -= 1
+
 
 
 def coordinates(col, row, columns):
@@ -63,11 +91,6 @@ def coordinates(col, row, columns):
     row = int(row) - 1
     store_data = (row, col)
     return store_data
-
-
-def user_input():
-    place = input("Where would you like to place your ship?:").upper()
-    return place
 
 
 def input_validation(columns, place):
@@ -100,6 +123,8 @@ def colrow(place):
         row = place[1] + place[2]
     return col, row
 
+
+#def generate_ships():
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
