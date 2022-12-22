@@ -1,5 +1,8 @@
+
+board = []
+
+
 def game_board():
-    board = []
     rows, cols = 10, 10
     for i in range(rows):
         col = []
@@ -9,7 +12,7 @@ def game_board():
     return board
 
 
-def print_gameboard(board):
+def print_gameboard():
     print("    A", " B", " C", " D", " E", " F", " G", " H", " I", " J")
     counter = 0
     for i in board:
@@ -25,69 +28,87 @@ def print_gameboard(board):
         print(counter, row, collector)
 
 
-def ship_input():
+def beginning(ships):
     print("In this game you have 13 ships which have different lengths\nYour ships are the following:")
-    ships = [0, 5, 3, 3, 2]
-    for i in range(len(ships)-1, 0, -1):
+    for i in range(len(ships) - 1, 0, -1):
         print(f"{ships[i]}pc of {i} unit long ship")
+    print("You can place your ships by typing in a letter and a number like this: A1")
     print("Enter a beginner and an end coordinate for all of your ships")
-    for j in range(len(ships)-1, 0, -1):
+
+
+def ship_input(ships, columns):
+    for j in range(len(ships) - 1, 0, -1):
         print(f"Place your {j} unit length ships:")
         pcs = ships[j]
         while pcs > 0:
-            first = input("First coordinate:")
-            last = input("Second coordinate:")
-            #validation
+            while True:
+                first = input("First coordinate?:").upper()
+                if input_validation(columns, first):
+                    col, row = colrow(first)
+                    coord1 = coordinates(col, row, columns)
+                    last = input("Second coordinate?:").upper()
+                    if input_validation(columns, last):
+                        col, row = colrow(last)
+                        coord2 = coordinates(col, row, columns)
+                        #if
+                        break
             pcs -= 1
-
-
-def users_input(columns):
-    print("You can place your ships by typing in a letter and a number like this: A1")
-    while True:
-        place = input("Where would you like to place your ship?:").upper()
-        col = place[0]
-        if len(place) == 2:
-            row = place[1]
-        else:
-            row = place[1] + place[2]
-        if col.isalpha():
-            if col not in columns:
-                print("Letter out of range")
-            else:
-                if row.isnumeric():
-                    if int(row) > 10:
-                        print("Number out of range")
-                    else:
-                        return col, row
-                else:
-                    print("The second part of the coordinate must be a number")
-        else:
-            print("The first part of the coordinate must be a letter")
 
 
 def coordinates(col, row, columns):
     for i in range(len(columns)):
         if col == columns[i]:
             col = i
-            return col, row
-
-
-def placing_ships(col, row, board):
     col = int(col)
     row = int(row) - 1
-    if board[row][col] == "0":
-        board[row][col] = "X"
+    store_data = (row, col)
+    return store_data
+
+
+def user_input():
+    place = input("Where would you like to place your ship?:").upper()
+    return place
+
+
+def input_validation(columns, place):
+    col, row = colrow(place)
+    if col.isalpha():
+        if col not in columns:
+            print("Letter out of range")
+        else:
+            if row.isnumeric():
+                if int(row) > 10 or int(row) <= 0:
+                    print("Number out of range")
+                else:
+                    coord = coordinates(col, row, columns)
+                    if board[coord[0]][coord[1]] == "X":
+                        print("Position taken")
+                    else:
+                        return True
+            else:
+                print("The second part of the coordinate must be a number")
+    else:
+        print("The first part of the coordinate must be a letter")
+    return False
+
+
+def colrow(place):
+    col = place[0]
+    if len(place) == 2:
+        row = place[1]
+    else:
+        row = place[1] + place[2]
+    return col, row
 
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    gboard = game_board()
+    ships = [0, 5, 3, 3, 2]
+    game_board()
     while True:
-        print_gameboard(gboard)
-        ship_input()
-        col, row = users_input(columns)
-        col, row = coordinates(col, row, columns)
-        placing_ships(col, row, gboard)
+        print_gameboard()
+        beginning(ships)
+        ship_input(ships, columns)
 
 
 if __name__ == "__main__":
