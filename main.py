@@ -51,32 +51,40 @@ def ship_input(ships, columns):
                     if input_validation(columns, last):
                         col, row = colrow(last)
                         coord2 = coordinates(col, row, columns)
-                        if coord1[0] != coord2[0]:
-                            if coord1[0] > coord2[0]:
-                                if coord1[0] - coord2[0] == j-1:
-                                    for i in range(coord2[0], coord1[0] + 1):
-                                        data.append((i, coord1[1]))
-                                else:
-                                    print("Ship too long or ship too small")
-                            else:
-                                if coord2[0] - coord1[0] == j-1:
-                                    for i in range(coord1[0], coord2[0] + 1):
-                                        data.append((i, coord1[1]))
-                                else:
-                                    print("Ship too long or ship too small")
+                        if coord1[0] != coord2[0] and coord1[1] != coord2[1]:
+                            print("There is no such ship")
+                            pcs += 1
                         else:
-                            if coord1[1] > coord2[1]:
-                                if coord1[1] - coord2[1] == j-1:
-                                    for i in range(coord2[1], coord1[1] + 1):
-                                        data.append((coord2[0], i))
+                            if coord1[0] != coord2[0]:
+                                if coord1[0] > coord2[0]:
+                                    if coord1[0] - coord2[0] == j-1:
+                                        for i in range(coord2[0], coord1[0] + 1):
+                                            data.append((i, coord1[1]))
+                                    else:
+                                        print("Ship too long or ship too small")
+                                        pcs += 1
                                 else:
-                                    print("Ship too long or ship too small")
-                            else:
-                                if coord2[1] - coord1[1] == j-1:
-                                    for i in range(coord1[1], coord2[1] + 1):
-                                        data.append((coord1[0], i))
+                                    if coord2[0] - coord1[0] == j-1:
+                                        for i in range(coord1[0], coord2[0] + 1):
+                                            data.append((i, coord1[1]))
+                                    else:
+                                        print("Ship too long or ship too small")
+                                        pcs += 1
+                            elif coord1[1] != coord2[1]:
+                                if coord1[1] > coord2[1]:
+                                    if coord1[1] - coord2[1] == j-1:
+                                        for i in range(coord2[1], coord1[1] + 1):
+                                            data.append((coord2[0], i))
+                                    else:
+                                        print("Ship too long or ship too small")
+                                        pcs += 1
                                 else:
-                                    print("Ship too long or ship too small")
+                                    if coord2[1] - coord1[1] == j-1:
+                                        for i in range(coord1[1], coord2[1] + 1):
+                                            data.append((coord1[0], i))
+                                    else:
+                                        print("Ship too long or ship too small")
+                                        pcs += 1
                         print(data)
                         break
             pcs -= 1
