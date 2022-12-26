@@ -148,7 +148,6 @@ def generate_ships(coord1, coord2, pcs, j):
                     print("Ship too long or ship too small")
                     pcs += 1
     print_gameboard()
-    print(pcs)
     return pcs
 
 
