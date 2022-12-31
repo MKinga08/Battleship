@@ -78,24 +78,27 @@ def coordinates(col, row, columns):
 
 
 def input_validation(columns, place):
-    col, row = col_row(place)
-    if col.isalpha():
-        if col not in columns:
-            print("Letter out of range")
-        else:
-            if row.isnumeric():
-                if int(row) > 10 or int(row) <= 0:
-                    print("Number out of range")
-                else:
-                    coord = coordinates(col, row, columns)
-                    if board[coord[0]][coord[1]] == "X" or coord in cant_place_ships:
-                        print("Position taken or ships too close")
-                    else:
-                        return True
-            else:
-                print("The second part of the coordinate must be a number")
+    if len(place) == 1:
+        print("Invalid coordinate")
     else:
-        print("The first part of the coordinate must be a letter")
+        col, row = col_row(place)
+        if col.isalpha():
+            if col not in columns:
+                print("Letter out of range")
+            else:
+                if row.isnumeric():
+                    if int(row) > 10 or int(row) <= 0:
+                        print("Number out of range")
+                    else:
+                        coord = coordinates(col, row, columns)
+                        if board[coord[0]][coord[1]] == "X" or coord in cant_place_ships:
+                            print("Position taken or ships too close")
+                        else:
+                            return True
+                else:
+                    print("The second part of the coordinate must be a number")
+        else:
+            print("The first part of the coordinate must be a letter")
     return False
 
 
