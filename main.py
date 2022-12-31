@@ -13,19 +13,19 @@ def game_board():
     return board
 
 
-def print_gameboard():
+def print_game_board():
     print("    A", " B", " C", " D", " E", " F", " G", " H", " I", " J")
     counter = 0
-    for i in board:
+    for lists in board:
         collector = ""
         row = " "
         counter += 1
-        for k in i:
+        for elements in lists:
             if counter <= 9:
-                collector += k + "  "
+                collector += elements + "  "
             else:
                 row = ""
-                collector += k + "  "
+                collector += elements + "  "
         print(counter, row, collector)
 
 
@@ -38,31 +38,31 @@ def beginning(ships):
 
 
 def ship_input(ships, columns):
-    for j in range(len(ships), 0, -1):
-        print(f"Place your {j} unit length ships:")
-        pcs = ships[j - 1]
+    for ship_length in range(len(ships), 0, -1):
+        print(f"Place your {ship_length} unit length ships:")
+        pcs = ships[ship_length - 1]
         while pcs > 0:
             while True:
-                if j == 1:
+                if ship_length == 1:
                     one_unit = input("Give a coordinate to your 1 unit length ship:").upper()
                     if input_validation(columns, one_unit):
-                        col, row = colrow(one_unit)
+                        col, row = col_row(one_unit)
                         coord = coordinates(col, row, columns)
                         data.append([coord])
                         cant_place_one_unit_ships_coordinates(coord)
                         place_ships()
-                        print_gameboard()
+                        print_game_board()
                         break
                 else:
                     first = input("First coordinate?:").upper()
                     if input_validation(columns, first):
-                        col, row = colrow(first)
+                        col, row = col_row(first)
                         coord1 = coordinates(col, row, columns)
                         last = input("Second coordinate?:").upper()
                         if input_validation(columns, last):
-                            col, row = colrow(last)
+                            col, row = col_row(last)
                             coord2 = coordinates(col, row, columns)
-                            pcs = generate_ships(coord1, coord2, pcs, j)
+                            pcs = generate_ships(coord1, coord2, pcs, ship_length)
                             break
             pcs -= 1
 
@@ -78,7 +78,7 @@ def coordinates(col, row, columns):
 
 
 def input_validation(columns, place):
-    col, row = colrow(place)
+    col, row = col_row(place)
     if col.isalpha():
         if col not in columns:
             print("Letter out of range")
@@ -99,7 +99,7 @@ def input_validation(columns, place):
     return False
 
 
-def colrow(place):
+def col_row(place):
     col = place[0]
     if len(place) == 2:
         row = place[1]
@@ -156,15 +156,15 @@ def generate_ships(coord1, coord2, pcs, j):
                 else:
                     print("Ship too long or ship too small")
                     pcs += 1
-    print_gameboard()
+    print_game_board()
     return pcs
 
 
 def place_ships():
-    for listcoords in data:
-        for coords in listcoords:
-            if board[coords[0]][coords[1]] == "0":
-                board[coords[0]][coords[1]] = "X"
+    for list_coord in data:
+        for coord in list_coord:
+            if board[coord[0]][coord[1]] == "0":
+                board[coord[0]][coord[1]] = "X"
 
 
 def cant_place_ships_coordinates(coord1, coord2):
@@ -221,9 +221,9 @@ def cant_place():
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    ships = [5, 1, 1, 1]
+    ships = [5, 3, 3, 2]
     game_board()
-    print_gameboard()
+    print_game_board()
     beginning(ships)
     ship_input(ships, columns)
 
