@@ -1,6 +1,7 @@
 
 board = []
 data = []
+cant_place_ships = []
 
 
 def game_board():
@@ -64,7 +65,6 @@ def ship_input(ships, columns):
                             pcs = generate_ships(coord1, coord2, pcs, j)
                             break
             pcs -= 1
-            #{4 : [[()()()()], [()()()()]], 3:}
 
 
 def coordinates(col, row, columns):
@@ -88,8 +88,8 @@ def input_validation(columns, place):
                     print("Number out of range")
                 else:
                     coord = coordinates(col, row, columns)
-                    if board[coord[0]][coord[1]] == "X":
-                        print("Position taken")
+                    if board[coord[0]][coord[1]] == "X" or coord in cant_place_ships:
+                        print("Position taken or ships too close")
                     else:
                         return True
             else:
@@ -109,6 +109,7 @@ def colrow(place):
 
 
 def generate_ships(coord1, coord2, pcs, j):
+    temp_data = []
     if coord1[0] != coord2[0] and coord1[1] != coord2[1]:
         print("There is no such ship")
         pcs += 1
@@ -117,16 +118,20 @@ def generate_ships(coord1, coord2, pcs, j):
             if coord1[0] > coord2[0]:
                 if coord1[0] - coord2[0] == j - 1:
                     for i in range(coord2[0], coord1[0] + 1):
-                        data.append((i, coord1[1]))
-                        place_ships()
+                        temp_data.append((i, coord1[1]))
+                    data.append(sorted(temp_data))
+                    cant_place_ships_coordinates(coord1, coord2)
+                    place_ships()
                 else:
                     print("Ship too long or ship too small")
                     pcs += 1
             else:
                 if coord2[0] - coord1[0] == j - 1:
                     for i in range(coord1[0], coord2[0] + 1):
-                        data.append((i, coord1[1]))
-                        place_ships()
+                        temp_data.append((i, coord1[1]))
+                    data.append(sorted(temp_data))
+                    cant_place_ships_coordinates(coord1, coord2)
+                    place_ships()
                 else:
                     print("Ship too long or ship too small")
                     pcs += 1
@@ -134,16 +139,20 @@ def generate_ships(coord1, coord2, pcs, j):
             if coord1[1] > coord2[1]:
                 if coord1[1] - coord2[1] == j - 1:
                     for i in range(coord2[1], coord1[1] + 1):
-                        data.append((coord2[0], i))
-                        place_ships()
+                        temp_data.append((coord2[0], i))
+                    data.append(sorted(temp_data))
+                    cant_place_ships_coordinates(coord1, coord2)
+                    place_ships()
                 else:
                     print("Ship too long or ship too small")
                     pcs += 1
             else:
                 if coord2[1] - coord1[1] == j - 1:
                     for i in range(coord1[1], coord2[1] + 1):
-                        data.append((coord1[0], i))
-                        place_ships()
+                        temp_data.append((coord1[0], i))
+                    data.append(sorted(temp_data))
+                    cant_place_ships_coordinates(coord1, coord2)
+                    place_ships()
                 else:
                     print("Ship too long or ship too small")
                     pcs += 1
@@ -152,13 +161,43 @@ def generate_ships(coord1, coord2, pcs, j):
 
 
 def place_ships():
-    for coords in data:
-        if board[coords[0]][coords[1]] == "0":
-            board[coords[0]][coords[1]] = "X"
+    for listcoords in data:
+        for coords in listcoords:
+            if board[coords[0]][coords[1]] == "0":
+                board[coords[0]][coords[1]] = "X"
+
+
+def cant_place_ships_coordinates(coord1, coord2):
+    if coord1[1] != coord2[1]:
+        if coord1[1] > coord2[1]:
+            coord3 = coord2
+            coord2 = coord1
+            coord1 = coord3
+        for i in data:
+            for k in i:
+                cant_place_ships.append((k[0]-1, k[1]))
+                cant_place_ships.append((k[0]+1, k[1]))
+            cant_place_ships.append((coord1[0], coord1[1]-1))
+            cant_place_ships.append((coord2[0], coord2[1]+1))
+            cant_place_ships.append((coord1[0]-1, coord1[1]-1))
+            cant_place_ships.append((coord1[0]+1, coord1[1]-1))
+            cant_place_ships.append((coord2[0]-1, coord2[1]+1))
+            cant_place_ships.append((coord2[0]+1, coord2[1]+1))
+    else:
+        for k in data:
+            cant_place_ships.append((k[0], k[1] - 1))
+            cant_place_ships.append((k[0], k[1] + 1))
+
+
+def cant_place():
+    for k in cant_place_ships:
+        for i in data:
+            if k == i:
+                return True
+    return False
 
 
 def main():
-
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     ships = [5, 3, 3, 2]
     game_board()
