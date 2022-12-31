@@ -1,4 +1,3 @@
-
 board = []
 data = []
 cant_place_ships = []
@@ -33,7 +32,7 @@ def print_gameboard():
 def beginning(ships):
     print("In this game you have 13 ships which have different lengths\nYour ships are the following:")
     for i in range(len(ships), 0, -1):
-        print(f"{ships[i-1]}pc of {i} unit long ship")
+        print(f"{ships[i - 1]}pc of {i} unit long ship")
     print("You can place your ships by typing in a letter and a number like this: A1")
     print("Enter a beginner and an end coordinate for all of your ships")
 
@@ -41,7 +40,7 @@ def beginning(ships):
 def ship_input(ships, columns):
     for j in range(len(ships), 0, -1):
         print(f"Place your {j} unit length ships:")
-        pcs = ships[j-1]
+        pcs = ships[j - 1]
         while pcs > 0:
             while True:
                 if j == 1:
@@ -49,7 +48,8 @@ def ship_input(ships, columns):
                     if input_validation(columns, one_unit):
                         col, row = colrow(one_unit)
                         coord = coordinates(col, row, columns)
-                        data.append(coord)
+                        data.append([coord])
+                        cant_place_one_unit_ships_coordinates(coord)
                         place_ships()
                         print_gameboard()
                         break
@@ -175,14 +175,14 @@ def cant_place_ships_coordinates(coord1, coord2):
             coord1 = coord3
         for lists in data:
             for k in lists:
-                cant_place_ships.append((k[0]-1, k[1]))
-                cant_place_ships.append((k[0]+1, k[1]))
-            cant_place_ships.append((coord1[0], coord1[1]-1))
-            cant_place_ships.append((coord2[0], coord2[1]+1))
-            cant_place_ships.append((coord1[0]-1, coord1[1]-1))
-            cant_place_ships.append((coord1[0]+1, coord1[1]-1))
-            cant_place_ships.append((coord2[0]-1, coord2[1]+1))
-            cant_place_ships.append((coord2[0]+1, coord2[1]+1))
+                cant_place_ships.append((k[0] - 1, k[1]))
+                cant_place_ships.append((k[0] + 1, k[1]))
+            cant_place_ships.append((coord1[0], coord1[1] - 1))
+            cant_place_ships.append((coord2[0], coord2[1] + 1))
+            cant_place_ships.append((coord1[0] - 1, coord1[1] - 1))
+            cant_place_ships.append((coord1[0] + 1, coord1[1] - 1))
+            cant_place_ships.append((coord2[0] - 1, coord2[1] + 1))
+            cant_place_ships.append((coord2[0] + 1, coord2[1] + 1))
     else:
         if coord1[0] > coord2[0]:
             coord3 = coord2
@@ -200,6 +200,17 @@ def cant_place_ships_coordinates(coord1, coord2):
             cant_place_ships.append((coord2[0] + 1, coord2[1] + 1))
 
 
+def cant_place_one_unit_ships_coordinates(coord):
+    cant_place_ships.append((coord[0], coord[1] - 1))
+    cant_place_ships.append((coord[0], coord[1] + 1))
+    cant_place_ships.append((coord[0] - 1, coord[1]))
+    cant_place_ships.append((coord[0] + 1, coord[1]))
+    cant_place_ships.append((coord[0] + 1, coord[1] - 1))
+    cant_place_ships.append((coord[0] + 1, coord[1] + 1))
+    cant_place_ships.append((coord[0] - 1, coord[1] - 1))
+    cant_place_ships.append((coord[0] - 1, coord[1] + 1))
+
+
 def cant_place():
     for k in cant_place_ships:
         for i in data:
@@ -210,7 +221,7 @@ def cant_place():
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    ships = [5, 3, 3, 2]
+    ships = [5, 1, 1, 1]
     game_board()
     print_gameboard()
     beginning(ships)
