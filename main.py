@@ -173,8 +173,8 @@ def cant_place_ships_coordinates(coord1, coord2):
             coord3 = coord2
             coord2 = coord1
             coord1 = coord3
-        for i in data:
-            for k in i:
+        for lists in data:
+            for k in lists:
                 cant_place_ships.append((k[0]-1, k[1]))
                 cant_place_ships.append((k[0]+1, k[1]))
             cant_place_ships.append((coord1[0], coord1[1]-1))
@@ -184,9 +184,20 @@ def cant_place_ships_coordinates(coord1, coord2):
             cant_place_ships.append((coord2[0]-1, coord2[1]+1))
             cant_place_ships.append((coord2[0]+1, coord2[1]+1))
     else:
-        for k in data:
-            cant_place_ships.append((k[0], k[1] - 1))
-            cant_place_ships.append((k[0], k[1] + 1))
+        if coord1[0] > coord2[0]:
+            coord3 = coord2
+            coord2 = coord1
+            coord1 = coord3
+        for lists in data:
+            for tuples in lists:
+                cant_place_ships.append((tuples[0], tuples[1] - 1))
+                cant_place_ships.append((tuples[0], tuples[1] + 1))
+            cant_place_ships.append((coord1[0] - 1, coord1[1]))
+            cant_place_ships.append((coord2[0] + 1, coord2[1]))
+            cant_place_ships.append((coord1[0] - 1, coord1[1] - 1))
+            cant_place_ships.append((coord1[0] - 1, coord1[1] + 1))
+            cant_place_ships.append((coord2[0] + 1, coord2[1] - 1))
+            cant_place_ships.append((coord2[0] + 1, coord2[1] + 1))
 
 
 def cant_place():
