@@ -275,9 +275,9 @@ def main():
     for rounds in range(2):
         beginning(ships)
         ship_input(ships, columns)
-        print_game_board()
         change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
-        print_game_board()
+        if player == player2:
+            print_game_board()
     # shooting_phase
 
 
