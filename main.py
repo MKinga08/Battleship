@@ -1,16 +1,18 @@
 board = []
-data = []
+ships_data = []
 cant_place_ships = []
+player = ""
 
 
 def game_board():
+    origin_board = []
     rows, cols = 10, 10
     for i in range(rows):
         col = []
         for j in range(cols):
             col.append("0")
-        board.append(col)
-    return board
+        origin_board.append(col)
+    return origin_board
 
 
 def print_game_board():
@@ -35,6 +37,7 @@ def beginning(ships):
         print(f"{ships[i - 1]}pc of {i} unit long ship")
     print("You can place your ships by typing in a letter and a number like this: A1")
     print("Enter a beginner and an end coordinate for all of your ships")
+    print(f"Its your turn, {player}")
 
 
 def ship_input(ships, columns):
@@ -48,7 +51,7 @@ def ship_input(ships, columns):
                     if input_validation(columns, one_unit):
                         col, row = col_row(one_unit)
                         coord = coordinates(col, row, columns)
-                        data.append([coord])
+                        ships_data.append([coord])
                         cant_place_one_unit_ships_coordinates(coord)
                         place_ships()
                         print_game_board()
@@ -122,7 +125,7 @@ def generate_ships(coord1, coord2, pcs, j):
                 if coord1[0] - coord2[0] == j - 1:
                     for i in range(coord2[0], coord1[0] + 1):
                         temp_data.append((i, coord1[1]))
-                    data.append(sorted(temp_data))
+                    ships_data.append(sorted(temp_data))
                     cant_place_ships_coordinates(coord1, coord2)
                     place_ships()
                 else:
@@ -132,7 +135,7 @@ def generate_ships(coord1, coord2, pcs, j):
                 if coord2[0] - coord1[0] == j - 1:
                     for i in range(coord1[0], coord2[0] + 1):
                         temp_data.append((i, coord1[1]))
-                    data.append(sorted(temp_data))
+                    ships_data.append(sorted(temp_data))
                     cant_place_ships_coordinates(coord1, coord2)
                     place_ships()
                 else:
@@ -143,7 +146,7 @@ def generate_ships(coord1, coord2, pcs, j):
                 if coord1[1] - coord2[1] == j - 1:
                     for i in range(coord2[1], coord1[1] + 1):
                         temp_data.append((coord2[0], i))
-                    data.append(sorted(temp_data))
+                    ships_data.append(sorted(temp_data))
                     cant_place_ships_coordinates(coord1, coord2)
                     place_ships()
                 else:
@@ -153,7 +156,7 @@ def generate_ships(coord1, coord2, pcs, j):
                 if coord2[1] - coord1[1] == j - 1:
                     for i in range(coord1[1], coord2[1] + 1):
                         temp_data.append((coord1[0], i))
-                    data.append(sorted(temp_data))
+                    ships_data.append(sorted(temp_data))
                     cant_place_ships_coordinates(coord1, coord2)
                     place_ships()
                 else:
@@ -164,7 +167,7 @@ def generate_ships(coord1, coord2, pcs, j):
 
 
 def place_ships():
-    for list_coord in data:
+    for list_coord in ships_data:
         for coord in list_coord:
             if board[coord[0]][coord[1]] == "0":
                 board[coord[0]][coord[1]] = "X"
@@ -176,7 +179,7 @@ def cant_place_ships_coordinates(coord1, coord2):
             coord3 = coord2
             coord2 = coord1
             coord1 = coord3
-        for lists in data:
+        for lists in ships_data:
             for k in lists:
                 cant_place_ships.append((k[0] - 1, k[1]))
                 cant_place_ships.append((k[0] + 1, k[1]))
@@ -191,7 +194,7 @@ def cant_place_ships_coordinates(coord1, coord2):
             coord3 = coord2
             coord2 = coord1
             coord1 = coord3
-        for lists in data:
+        for lists in ships_data:
             for tuples in lists:
                 cant_place_ships.append((tuples[0], tuples[1] - 1))
                 cant_place_ships.append((tuples[0], tuples[1] + 1))
@@ -216,19 +219,66 @@ def cant_place_one_unit_ships_coordinates(coord):
 
 def cant_place():
     for k in cant_place_ships:
-        for i in data:
+        for i in ships_data:
             if k == i:
                 return True
     return False
 
 
+def get_player():
+    player1 = input("Who is the first player?")
+    player2 = input("Who is the second player?")
+    return player1, player2
+
+
+def change_player(player1, player2):
+    global player
+    return player1 if player1 != player else player2
+
+
+def change_board(board1, board2):
+    global board
+    return board1 if board1 != board else board2
+
+
+def change_ships_data(ships_data1, ships_data2):
+    global ships_data
+    return ships_data1 if ships_data1 != ships_data else ships_data2
+
+
+def change_cant_place_ships(cant_place_ships1, cant_place_ships2):
+    global cant_place_ships
+    return cant_place_ships1 if cant_place_ships1 != cant_place_ships else cant_place_ships2
+
+
+def change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2):
+    global player, board, cant_place_ships, ships_data
+    player = change_player(player1, player2)
+    board = change_board(board1, board2)
+    ships_data = change_ships_data(ships_data1, ships_data2)
+    cant_place_ships = change_cant_place_ships(cant_place_ships1, cant_place_ships2)
+
+
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    ships = [5, 3, 3, 2]
-    game_board()
+    ships = [1, 1, 1, 1]
+    global player, board, ships_data, cant_place_ships
+    board1, board2 = game_board(), game_board()
+    board = board1
+    player1, player2 = get_player()
+    player = player1
+    ships_data1, ships_data2 = [], []
+    ships_data = ships_data1
+    cant_place_ships1, cant_place_ships2 = [], []
+    cant_place_ships = cant_place_ships1
     print_game_board()
-    beginning(ships)
-    ship_input(ships, columns)
+    for rounds in range(2):
+        beginning(ships)
+        ship_input(ships, columns)
+        print_game_board()
+        change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
+        print_game_board()
+    # shooting_phase
 
 
 if __name__ == "__main__":
