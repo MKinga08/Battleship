@@ -259,6 +259,44 @@ def change_round(player1, player2, board1, board2, ships_data1, ships_data2, can
     cant_place_ships = change_cant_place_ships(cant_place_ships1, cant_place_ships2)
 
 
+def input_validation_for_shooting(columns, place):
+    if len(place) == 1:
+        print("Invalid coordinate")
+    else:
+        col, row = col_row(place)
+        if col.isalpha():
+            if col not in columns:
+                print("Letter out of range")
+            else:
+                if row.isnumeric():
+                    if int(row) > 10 or int(row) <= 0:
+                        print("Number out of range")
+                    else:
+                        return True
+                else:
+                    print("The second part of the coordinate must be a number")
+        else:
+            print("The first part of the coordinate must be a letter")
+
+
+def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2):
+    global ships_data
+    ships_data = change_ships_data(ships_data1, ships_data2)
+    while True:
+        print(f"It's your turn to shoot {player}")
+        shoot = input("Enter a coordinate to shoot:").upper()
+        if input_validation_for_shooting(columns, shoot):
+            col, row = col_row(shoot)
+            shoot = coordinates(col, row, columns)
+            for list_of_ships in ships_data:
+                if shoot in list_of_ships:
+                    print("Hit")
+                else:
+                    print("No ship on that position")
+            change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
+
+
+
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     ships = [1, 1, 1, 1]
@@ -279,6 +317,7 @@ def main():
         if player == player2:
             print_game_board()
     # shooting_phase
+    shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
 
 
 if __name__ == "__main__":
