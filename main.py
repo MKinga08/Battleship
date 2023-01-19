@@ -288,13 +288,11 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
         if input_validation_for_shooting(columns, shoot):
             col, row = col_row(shoot)
             shoot = coordinates(col, row, columns)
-            for list_of_ships in ships_data:
-                if shoot in list_of_ships:
-                    print("Hit")
-                else:
-                    print("No ship on that position")
+            if any(shoot in sublist for sublist in ships_data):
+                print("Hit")
+            else:
+                print("No ship on that position")
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
-
 
 
 def main():
