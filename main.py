@@ -279,10 +279,35 @@ def input_validation_for_shooting(columns, place):
             print("The first part of the coordinate must be a letter")
 
 
+def print_shoot_game_board():
+    global board
+    shoot_board = board
+    for i in shoot_board:
+        for k in range(len(i)):
+            if i[k] == "X":
+                i[k] = "0"
+    print("    A", " B", " C", " D", " E", " F", " G", " H", " I", " J")
+    counter = 0
+    for lists in shoot_board:
+        collector = ""
+        row = " "
+        counter += 1
+        for elements in lists:
+            if counter <= 9:
+                collector += elements + "  "
+            else:
+                row = ""
+                collector += elements + "  "
+        print(counter, row, collector)
+
+
 def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2):
     global ships_data
+    global board
     ships_data = change_ships_data(ships_data1, ships_data2)
+    board = change_board(board1, board2)
     while True:
+        print_shoot_game_board()
         print(f"It's your turn to shoot {player}")
         shoot = input("Enter a coordinate to shoot:").upper()
         if input_validation_for_shooting(columns, shoot):
@@ -297,7 +322,7 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    ships = [1, 1, 1, 1]
+    ships = [0, 0, 0, 1]
     global player, board, ships_data, cant_place_ships
     board1, board2 = game_board(), game_board()
     board = board1
