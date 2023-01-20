@@ -318,6 +318,8 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
                     board[shoot[0]][shoot[1]] = "H"
                 print("Hit")
             else:
+                if board[shoot[0]][shoot[1]] == "0":
+                    board[shoot[0]][shoot[1]] = "M"
                 print("No ship on that position")
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
 
