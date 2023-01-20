@@ -314,6 +314,8 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
             col, row = col_row(shoot)
             shoot = coordinates(col, row, columns)
             if any(shoot in sublist for sublist in ships_data):
+                if board[shoot[0]][shoot[1]] == "0":
+                    board[shoot[0]][shoot[1]] = "H"
                 print("Hit")
             else:
                 print("No ship on that position")
