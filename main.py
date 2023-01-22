@@ -316,11 +316,16 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
             if any(shoot in sublist for sublist in ships_data):
                 if board[shoot[0]][shoot[1]] == "0":
                     board[shoot[0]][shoot[1]] = "H"
+                for sublist in ships_data:
+                    for i in range(len(sublist)):
+                        if sublist[i] == shoot:
+                            sublist[i] = "H"
                 print("Hit")
             else:
                 if board[shoot[0]][shoot[1]] == "0":
                     board[shoot[0]][shoot[1]] = "M"
                 print("No ship on that position")
+            print(ships_data)
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
 
 
