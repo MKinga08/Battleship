@@ -317,21 +317,33 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
                 if board[shoot[0]][shoot[1]] == "0":
                     board[shoot[0]][shoot[1]] = "H"
                 for sublist in ships_data:
-                    for i in range(len(sublist)):
-                        if sublist[i] == shoot:
-                            sublist[i] = "H"
+                    for i in sublist:
+                        if i == shoot:
+                            sublist.remove(i)
                 print("Hit")
             else:
                 if board[shoot[0]][shoot[1]] == "0":
                     board[shoot[0]][shoot[1]] = "M"
                 print("No ship on that position")
-            print(ships_data)
+            ship_sinking()
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
+
+
+def ship_sinking():
+    if len(ships_data[0]) == 0 or len(ships_data[1]) == 0:
+        print(f"You sunk this 4 length ship!")
+    elif len(ships_data[2]) == 0 or len(ships_data[3]) == 0 or len(ships_data[4]) == 0:
+        print(f"You sunk this 3 length ship!")
+    elif len(ships_data[5]) == 0 or len(ships_data[6]) == 0 or len(ships_data[7]) == 0:
+        print(f"You sunk this 2 length ship!")
+    elif len(ships_data[8]) == 0 or len(ships_data[9]) == 0 or len(ships_data[10]) == 0 or len(ships_data[11]) == 0 \
+            or len(ships_data[12]) == 0:
+        print(f"You sunk this 1 length ship!")
 
 
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    ships = [0, 0, 0, 1]
+    ships = [5, 3, 3, 2]
     global player, board, ships_data, cant_place_ships
     board1, board2 = game_board(), game_board()
     board = board1
