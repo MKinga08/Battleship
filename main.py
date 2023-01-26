@@ -1,3 +1,5 @@
+import time
+import os
 board = []
 ships_data = []
 cant_place_ships = []
@@ -327,6 +329,8 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
                 print("No ship on that position")
             ship_sinking()
             check_winner()
+            screen_cleaner()
+            time.sleep(5)
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
 
 
@@ -363,6 +367,10 @@ def check_winner():
         quit()
 
 
+def screen_cleaner():
+    os.system('cls')
+
+
 def main():
     columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     ships = [5, 3, 3, 2]
@@ -379,6 +387,8 @@ def main():
     for rounds in range(2):
         beginning(ships)
         ship_input(ships, columns)
+        screen_cleaner()
+        time.sleep(5)
         change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
         if player == player2:
             print_game_board()
