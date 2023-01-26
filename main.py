@@ -44,11 +44,11 @@ def beginning(ships):
 
 def ship_input(ships, columns):
     for ship_length in range(len(ships), 0, -1):
-        print(f"Place your {ship_length} unit length ships:")
         pcs = ships[ship_length - 1]
         while pcs > 0:
             while True:
                 if ship_length == 1:
+                    print(f"Place your {ship_length} unit length ships:")
                     one_unit = input("Give a coordinate to your 1 unit length ship:").upper()
                     if input_validation(columns, one_unit):
                         col, row = col_row(one_unit)
@@ -59,6 +59,7 @@ def ship_input(ships, columns):
                         print_game_board()
                         break
                 else:
+                    print(f"Place your {ship_length} unit length ships:")
                     first = input("First coordinate?:").upper()
                     if input_validation(columns, first):
                         col, row = col_row(first)
@@ -120,6 +121,7 @@ def generate_ships(coord1, coord2, pcs, j):
     temp_data = []
     if coord1[0] != coord2[0] and coord1[1] != coord2[1]:
         print("There is no such ship")
+        time.sleep(2)
         pcs += 1
     else:
         if coord1[0] != coord2[0]:
@@ -132,6 +134,7 @@ def generate_ships(coord1, coord2, pcs, j):
                     place_ships()
                 else:
                     print("Ship too long or ship too small")
+                    time.sleep(2)
                     pcs += 1
             else:
                 if coord2[0] - coord1[0] == j - 1:
@@ -142,6 +145,7 @@ def generate_ships(coord1, coord2, pcs, j):
                     place_ships()
                 else:
                     print("Ship too long or ship too small")
+                    time.sleep(2)
                     pcs += 1
         elif coord1[1] != coord2[1]:
             if coord1[1] > coord2[1]:
@@ -153,6 +157,7 @@ def generate_ships(coord1, coord2, pcs, j):
                     place_ships()
                 else:
                     print("Ship too long or ship too small")
+                    time.sleep(2)
                     pcs += 1
             else:
                 if coord2[1] - coord1[1] == j - 1:
@@ -163,7 +168,9 @@ def generate_ships(coord1, coord2, pcs, j):
                     place_ships()
                 else:
                     print("Ship too long or ship too small")
+                    time.sleep(2)
                     pcs += 1
+    screen_cleaner()
     print_game_board()
     return pcs
 
@@ -329,6 +336,7 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
                 print("No ship on that position")
             ship_sinking()
             check_winner()
+            time.sleep(5)
             screen_cleaner()
             time.sleep(5)
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
