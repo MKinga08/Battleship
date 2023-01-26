@@ -326,19 +326,41 @@ def shooting(columns, player1, player2, board1, board2, ships_data1, ships_data2
                     board[shoot[0]][shoot[1]] = "M"
                 print("No ship on that position")
             ship_sinking()
+            check_winner()
             change_round(player1, player2, board1, board2, ships_data1, ships_data2, cant_place_ships1, cant_place_ships2)
 
 
 def ship_sinking():
-    if len(ships_data[0]) == 0 or len(ships_data[1]) == 0:
-        print(f"You sunk this 4 length ship!")
-    elif len(ships_data[2]) == 0 or len(ships_data[3]) == 0 or len(ships_data[4]) == 0:
-        print(f"You sunk this 3 length ship!")
-    elif len(ships_data[5]) == 0 or len(ships_data[6]) == 0 or len(ships_data[7]) == 0:
-        print(f"You sunk this 2 length ship!")
-    elif len(ships_data[8]) == 0 or len(ships_data[9]) == 0 or len(ships_data[10]) == 0 or len(ships_data[11]) == 0 \
-            or len(ships_data[12]) == 0:
-        print(f"You sunk this 1 length ship!")
+    count4 = 0
+    for i in range(0, 2):
+        if len(ships_data[i]) == 0:
+            count4 += 1
+    if count4 > 0:
+        print(f"You sunk {count4} four-length ship!")
+    count3 = 0
+    for k in range(2, 5):
+        if len(ships_data[k]) == 0:
+            count3 += 1
+    if count3 > 0:
+        print(f"You sunk {count3} three-length ship!")
+    count2 = 0
+    for j in range(5, 8):
+        if len(ships_data[j]) == 0:
+            count2 += 1
+    if count2 > 0:
+        print(f"You sunk {count2} two-length ship!")
+    count1 = 0
+    for a in range(8, 13):
+        if len(ships_data[a]) == 0:
+            count1 += 1
+    if count1 > 0:
+        print(f"You sunk {count1} one-length ship!")
+
+
+def check_winner():
+    if not any(ships_data):
+        print(f"Congratulations {player}, You sunk all the ships!")
+        quit()
 
 
 def main():
