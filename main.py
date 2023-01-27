@@ -43,7 +43,6 @@ def beginning(ships):
     print(f"Its your turn, {player}\n")
 
 
-
 def ship_input(ships, columns):
     for ship_length in range(len(ships), 0, -1):
         pcs = ships[ship_length - 1]
