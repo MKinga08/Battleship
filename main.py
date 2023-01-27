@@ -34,12 +34,14 @@ def print_game_board():
 
 
 def beginning(ships):
+    print()
     print("In this game you have 13 ships which have different lengths\nYour ships are the following:")
     for i in range(len(ships), 0, -1):
         print(f"{ships[i - 1]}pc of {i} unit long ship")
     print("You can place your ships by typing in a letter and a number like this: A1")
-    print("Enter a beginner and an end coordinate for all of your ships")
-    print(f"Its your turn, {player}")
+    print("Enter a beginner and an end coordinate for all of your ships\n")
+    print(f"Its your turn, {player}\n")
+
 
 
 def ship_input(ships, columns):
@@ -235,8 +237,9 @@ def cant_place():
 
 
 def get_player():
-    player1 = input("Who is the first player?")
-    player2 = input("Who is the second player?")
+    player1 = input("Who is the first player? ")
+    player2 = input("Who is the second player? ")
+    print()
     return player1, player2
 
 
